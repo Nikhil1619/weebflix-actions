@@ -48,7 +48,7 @@ jobs:
           mv ./build/* "../libDrive.Server.${{ github.event.inputs.version }}/build"
           cd ../server
           server_commit_id=$(git rev-parse --verify HEAD)
-          mv main.py requirements.txt "../libDrive.Server.${{ github.event.inputs.version }}"
+          mv bot.py main.py requirements.txt "../libDrive.Server.${{ github.event.inputs.version }}"
           mv ./src/* "../libDrive.Server.${{ github.event.inputs.version }}/src"
           cd ..
           cp README.md LICENSE "./libDrive.Server.${{ github.event.inputs.version }}"
