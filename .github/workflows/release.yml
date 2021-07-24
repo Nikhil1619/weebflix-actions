@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: "15"
+          node-version: "16"
       - name: Build Release
         id: build_release
         run: |
@@ -41,6 +41,7 @@ jobs:
           mkdir "./libDrive.Server.${{ github.event.inputs.version }}"
           mkdir "./libDrive.Server.${{ github.event.inputs.version }}/build"
           mkdir "./libDrive.Server.${{ github.event.inputs.version }}/src"
+          mkdir "./libDrive.Server.${{ github.event.inputs.version }}/templates"
           cd ./web
           web_commit_id=$(git rev-parse --verify HEAD)
           yarn install
@@ -50,12 +51,13 @@ jobs:
           server_commit_id=$(git rev-parse --verify HEAD)
           mv main.py requirements.txt "../libDrive.Server.${{ github.event.inputs.version }}"
           mv ./src/* "../libDrive.Server.${{ github.event.inputs.version }}/src"
+          mv ./templates/* "../libDrive.Server.${{ github.event.inputs.version }}/templates"
           cd ..
           cp README.md LICENSE "./libDrive.Server.${{ github.event.inputs.version }}"
           cd "libDrive.Server.${{ github.event.inputs.version }}"
           tar cvf "../libDrive.Server.${{ github.event.inputs.version }}.tar" *
           cd ..
-          body="# ${{ github.event.inputs.version }}\n\n## Changelog\n\n## Working trees:\n\n- https://github.com/libDrive/server/commit/$server_commit_id\n- https://github.com/libDrive/web/commit/$web_commit_id\n\n## Screenshots"
+          body="# ${{ github.event.inputs.version }}\n\n## Changelog\n\n## Working trees\n\n- https://github.com/libDrive/server/commit/$server_commit_id\n- https://github.com/libDrive/web/commit/$web_commit_id\n\n## Screenshots"
           echo -e $body > body.txt
       - name: Create Release
         id: create_release
@@ -68,4 +70,4 @@ jobs:
           body_path: "body.txt"
           draft: true
           prerelease: false
-          files: "libDrive.Server.${{ github.event.inputs.version }}.tar"
+          files: libDrive.Server.${{ github.event.inputs.version }}.tar
