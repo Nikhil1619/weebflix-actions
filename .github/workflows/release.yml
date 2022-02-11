@@ -24,6 +24,9 @@ on:
         required: true
         default: "main"
 
+env:
+  CI: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
